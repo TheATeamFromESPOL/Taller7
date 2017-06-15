@@ -1,4 +1,4 @@
-#include <stdio.h>
+ #include <stdio.h>
 #include <stdlib.h>
 
 
@@ -28,8 +28,8 @@ typedef struct listaHijosTDA{
 
 
 
-Persona *crearPersona(char *nombre, int edad, float peso){
-	Persona *nuevo;
+Persona *crearPersona(char *nombre, int edad, int peso){
+	Persona *nuevo = (Persona*)malloc(sizeof(Persona));
 
 	nuevo->nombre = nombre;
 	nuevo->edad = edad;
@@ -39,7 +39,7 @@ Persona *crearPersona(char *nombre, int edad, float peso){
 
 	nuevo->hijos = NULL;
 
-	return &nuevo;					
+	return nuevo;					
 }
 
 
@@ -73,7 +73,8 @@ int anadirHijo(Persona *padre, Persona *hijo){
 			return -1;		
 		}
 		nuevo->per = hijo;
-		nuevo->siguiente = nuevo;
+		//nuevo->siguiente = nuevo;
+		nuevo->siguiente = NULL;
 		lista_hijos->siguiente = nuevo;
 		return 0;	
 		
@@ -112,11 +113,11 @@ int main(void){
 		int edad = edadMin + rand() / (RAND_MAX / (edadMax - edadMin + 1) + 1);
 		int peso = pesoMin + rand() / (RAND_MAX / (pesoMax - pesoMin + 1) + 1);
 
-		crearPersona(nombres[i],  edad, peso);
+		listaPersona[i] = crearPersona(nombres[i],  edad, peso);
 
 	}
 
-
+	
 	anadirHijo(listaPersona[0], listaPersona[1]);
 	anadirHijo(listaPersona[3], listaPersona[2]);
 	anadirHijo(listaPersona[3], listaPersona[6]);
@@ -124,10 +125,10 @@ int main(void){
 
 	
 
-	
-	for(i = 0; i < TAMANO; i++){			
+	int j;
+	for(j = 0; j < TAMANO; j++){			
 
-		mostrarInfoPersona(listaPersona[i]);
+		mostrarInfoPersona(*(listaPersona+j));
 		printf("\n");
 
 	}
